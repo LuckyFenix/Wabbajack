@@ -32,11 +32,10 @@ public class DBI
 
         this.dbName = dataBaseName;
 
-            Properties connInfo=new Properties();
-
-            connInfo.put("user", properties.getProperty("DataBaseUser"));
-            connInfo.put("password", properties.getProperty("DataBasePass"));
-            connInfo.put("charSet", "UTF8");
+        Properties connInfo=new Properties();
+        connInfo.put("user", properties.getProperty("DataBaseUser"));
+        connInfo.put("password", properties.getProperty("DataBasePass"));
+        connInfo.put("charSet", "UTF8");
         try
         {
 

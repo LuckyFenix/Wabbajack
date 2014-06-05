@@ -440,7 +440,6 @@ public class WaybillSelling extends RPanel
                     resultSet.close();
                 } catch (SQLException e1)
                 {
-                    System.out.println(n);
                     e1.printStackTrace();
                 }
             }

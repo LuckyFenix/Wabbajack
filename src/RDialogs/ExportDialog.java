@@ -6,7 +6,6 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.Font;
 
 import javax.swing.*;
 import java.io.*;
@@ -30,7 +29,6 @@ public class ExportDialog
             String s = rs.getString(1);
             if (s.charAt(0)<='я' && s.charAt(0)>='а')
             {
-                System.out.println(s);
                 DBI dbiU = new DBI("databassesabc");
                 dbiU.getSt().execute("UPDATE `товари` " +
                         "SET `Категорія`='" + (Character.toUpperCase(s.charAt(0)) + s.substring(1, s.length())) + "' " +
@@ -52,7 +50,6 @@ public class ExportDialog
             if (result == JFileChooser.APPROVE_OPTION)
             {
                 String filename = fileChooser.getSelectedFile().getPath();
-                System.out.println(filename);
 
                 ArrayList<String> groupsArray = new ArrayList<>();
                 groupsArray.clear();

@@ -5,13 +5,10 @@ import Support.DBI;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 import com.mysql.jdbc.exceptions.MySQLSyntaxErrorException;
 
-
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -19,7 +16,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Properties;
 
 public class RTree extends RPanel
 {
@@ -97,7 +95,6 @@ public class RTree extends RPanel
                     warehouseRS.close();
                 } catch (MySQLSyntaxErrorException e1)
                 {
-                    System.out.println(thisWarehouse);
                     e1.printStackTrace();
                 }
             }

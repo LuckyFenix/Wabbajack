@@ -1,23 +1,19 @@
 package RComponents;
 
-import javax.swing.*;
 import Main.Main;
 import RDialogs.ExportDialog;
 import RDialogs.ExportToReimportDialog;
 import RDialogs.ImportDialog;
 import RDialogs.StaffDialog;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 
 public class RMenuBar extends JMenuBar
 {
     Main main;
     private final JMenu waybillMenu;
-    private final UIManager.LookAndFeelInfo[] infos;
 
     public RMenuBar(final Main main)
     {
@@ -32,7 +28,6 @@ public class RMenuBar extends JMenuBar
         staffEdit.addActionListener(e ->
         {
             new StaffDialog(main);
-            System.out.println("sdg");
         });
         staffMenu.add(staffEdit);
 
@@ -64,32 +59,12 @@ public class RMenuBar extends JMenuBar
         serviceMenu.add(remeainsExportToRevision);
         serviceMenu.add(remeainsExportToReimport);
 
-        JMenu styleMenu = new JMenu("Стилі");
-        infos = UIManager.getInstalledLookAndFeels();
-        for(int i = 0; i<infos.length; i++)
-        {
-            ArrayList<JMenuItem> styleMenuItem = new ArrayList<>();
-            styleMenuItem.add(new JMenuItem(infos[i].getName()));
-            final int finalI = i;
-            styleMenuItem.get(i).addActionListener(e ->
-            {
-                try
-                {
-                    UIManager.setLookAndFeel(infos[finalI].getClassName());
-                    SwingUtilities.updateComponentTreeUI(main);
-                } catch (Exception e1) {e1.printStackTrace();}
-            });
-            styleMenu.add(styleMenuItem.get(i));
-        }
-
-
         add(waybillMenu);
         add(warehouseMenu);
         add(suppliersMenu);
         add(staffMenu);
         add(reportsMenu);
         add(serviceMenu);
-        add(styleMenu);
     }
 
     public JMenu getWaybillMenu()
