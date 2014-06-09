@@ -5,18 +5,21 @@ import Support.DBI;
 import Support.GBC;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class SuppliersDialog extends RDialog
 {
     private Main main;
     private final JList<String> list;
     private DBI suppliersDB;
-    private final DefaultListModel<String> listModel = new DefaultListModel<String>();
+    private ResultSet resultSet;
+    private final DefaultListModel<String> listModel = new DefaultListModel<>();
+    private final JPopupMenu popupMenu;
     private final JTextField searchField;
     private final JScrollPane scrollPane;
 
@@ -28,7 +31,6 @@ public class SuppliersDialog extends RDialog
         GridBagLayout layout = new GridBagLayout();
         setLayout(layout);
 
-        ResultSet resultSet;
         suppliersDB = new DBI("databassesabc");
         try
         {
@@ -43,6 +45,39 @@ public class SuppliersDialog extends RDialog
 
         searchField = new JTextField(20);
         list = new JList<>(listModel);
+        popupMenu = new JPopupMenu();
+        JMenuItem menuItem = new JMenuItem("Звіт");
+        menuItem.addActionListener(e ->
+        {
+            String[] columnNames = new String[]{"Дата", "Назва товару", "Ціна закупочна", "Кількість", "Ціна"};
+            String[] row;
+            DefaultTableModel tableModel = new DefaultTableModel(null, columnNames);
+            JTable table = new JTable(tableModel);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            table.setAutoCreateRowSorter(true);
+            String supplier = list.getSelectedValue();
+            suppliersDB = new DBI("databassesabc");
+            try
+            {
+                resultSet = suppliersDB.getSt().executeQuery("SELECT " + getStringFromArray(columnNames, '`') + " " +
+                        "FROM `прихід` " +
+                        "WHERE `Постачальник`='" + supplier + "';");
+
+                while (resultSet.next())
+                {
+                    row = new String[columnNames.length];
+                    for (int i = 0; i < columnNames.length; i++)
+                    {
+                        row[i] = resultSet.getString(i + 1);
+                    }
+                    tableModel.addRow(row);
+                }
+            } catch (SQLException e1) {e1.printStackTrace();}
+            JOptionPane.showMessageDialog(this, new JScrollPane(table));
+        });
+        popupMenu.add(menuItem);
+        list.setComponentPopupMenu(popupMenu);
+
         JButton newSupplierBtn = new JButton("Новий");
         JButton deleteSupplierBtn = new JButton("Видалити");
         JButton editSupplierBtn = new JButton("Редактувати");
